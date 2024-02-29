@@ -20,6 +20,9 @@ CREATE TABLE UNIT(
     Unit_ID INT PRIMARY KEY, 
     Unit_Name char(20),
     Unit_Type char(20),
+    Unit_Head_Name char(20),
+    Unit_Head_Rank char(20),
+    Unit_Head_Phone numeric(10),
     Unit_Location char(20),
     Date_of_Establishment date
 );

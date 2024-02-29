@@ -1,5 +1,5 @@
-const Pool = require('pg').Pool;
-
+// server/db.js
+const { Pool } = require('pg');
 
 const pool = new Pool({
     user: 'postgres',
