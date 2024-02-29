@@ -1,7 +1,7 @@
 CREATE DATABASE dbproject;
 
 CREATE TABLE SOLDIER(
-    Soldier_ID INT,
+    Soldier_ID INT primary key,
     Soldier_Name VARCHAR(20),
     Soldier_Rank VARCHAR(20),
     DOB date,
@@ -9,18 +9,18 @@ CREATE TABLE SOLDIER(
     Unit_ID INT,
     Date_of_Enlistment date,
     Date_of_Discharge  date,
-    Regiment_Name varchar(20),
-    Phone int,
+    Regiment_Name char(20),
+    Phone numeric(10),
     Blood_Type   VARCHAR(3),
-    Physical_Fitness_Scores int
+    Physical_Fitness_Scores int,
+    foreign key (Unit_ID) references UNIT(Unit_ID) on delete cascade
 );
 
 CREATE TABLE UNIT(
-    Unit_ID INT PRIMARY KEY,
-    Unit_Name VARCHAR(20),
-    Unit_Type VARCHAR(20),
-    Unit_Location VARCHAR(20),
-    Commander_ID int,
+    Unit_ID INT PRIMARY KEY, 
+    Unit_Name char(20),
+    Unit_Type char(20),
+    Unit_Location char(20),
     Date_of_Establishment date
 );
 
