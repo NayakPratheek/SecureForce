@@ -87,6 +87,32 @@ app.get("/equipments", async (req, res) => {
     }
 });
 
+
+app.get("/units", async (req, res) => {
+    try {
+        const allEquipments = await pool.query("SELECT * FROM UNIT");
+        res.json(allEquipments.rows);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+app.get("/commanders", async (req, res) => {
+    try {
+        const allEquipments = await pool.query("SELECT * FROM COMMANDER");
+        res.json(allEquipments.rows);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+
+
+
+
+
 app.listen(5000, () => {
     console.log("Server running at port 5000");
 });

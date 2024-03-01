@@ -1,5 +1,19 @@
 CREATE DATABASE dbproject;
 
+
+CREATE TABLE UNIT(
+    Unit_ID INT PRIMARY KEY, 
+    Unit_Name char(20),
+    Unit_Type char(20),
+    Unit_Head_Name char(20),
+    Unit_Head_Rank char(20),
+    Unit_Head_Phone numeric(10),
+    Unit_Location char(20),
+    Date_of_Establishment date
+);
+
+
+
 CREATE TABLE SOLDIER(
     Soldier_ID INT primary key,
     Soldier_Name VARCHAR(20),
@@ -16,16 +30,7 @@ CREATE TABLE SOLDIER(
     foreign key (Unit_ID) references UNIT(Unit_ID) on delete cascade
 );
 
-CREATE TABLE UNIT(
-    Unit_ID INT PRIMARY KEY, 
-    Unit_Name char(20),
-    Unit_Type char(20),
-    Unit_Head_Name char(20),
-    Unit_Head_Rank char(20),
-    Unit_Head_Phone numeric(10),
-    Unit_Location char(20),
-    Date_of_Establishment date
-);
+
 
 CREATE TABLE COMMANDER(
     Commander_ID INT primary key,
