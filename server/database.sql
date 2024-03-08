@@ -64,8 +64,9 @@ CREATE TABLE MISSION(
     foreign key(Commander_ID) references COMMANDER(Commander_ID)
 );
 
-CREATE TABLE MISSION_EQUIPMENT(
-    Mission_ID int,
-    Equipment_ID int,
-    foreign key(Mission_ID) references MISSION(Mission_ID)
+CREATE TABLE AWARDS(
+    Soldier_ID int,
+    Award_Name VARCHAR(20),
+    Award_issued_date date,
+    foreign key (Soldier_ID) references SOLDIER(Soldier_ID)
 );
