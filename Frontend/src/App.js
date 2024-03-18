@@ -12,6 +12,7 @@ import Soldiers from './components/Soldiers';
 import Equipments from './components/Equipments';
 import Commanders from './components/Commanders';
 import Awards from './components/Awards';
+import LoginForm from './Screen/LoginForm';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
                 <Route exact path="/commanders" element={<Commanders />} />
                 <Route exact path="/award" element={<Award />} />
                 <Route exact path="/awards" element={<Awards />} />
+                <Route exact path="/admin" element={<LoginForm/>}></Route>
             </Routes>
         </Router>
     );
