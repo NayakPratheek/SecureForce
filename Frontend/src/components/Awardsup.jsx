@@ -71,9 +71,8 @@ function Awardsup() {
 
   const handleDelete = async (Soldier_ID) => {
     try {
-      const response = await fetch(`http://localhost:5000/awards/${Soldier_ID}`, {
-        method: 'DELETE',
-        
+      const response = await fetch(`http://localhost:5000/soldiers/${Soldier_ID}`, {
+        method: 'DELETE',        
       });
       if (response.ok) {
         alert('Award deleted successfully!');
@@ -86,6 +85,8 @@ function Awardsup() {
       console.error('Error:', error.message);
     }
   };
+
+  
 
   return (
     <div className="bg-gray-100 min-h-screen">

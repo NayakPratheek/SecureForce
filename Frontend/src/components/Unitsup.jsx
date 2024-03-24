@@ -68,7 +68,6 @@ function Unitsup() {
 
       if (response.ok) {
         alert('Data updated successfully!');
-        // Refetch the updated data
         const updatedResponse = await fetch('http://localhost:5000/units');
         if (updatedResponse.ok) {
           const updatedData = await updatedResponse.json();
@@ -91,8 +90,11 @@ function Unitsup() {
       });
       if (response.ok) {
         alert('Award deleted successfully!');
-        const updatedData = units.filter((uni) => uni.Unit_ID !== Unit_ID);
-        setUnits(updatedData);
+        const updatedResponse = await fetch('http://localhost:5000/units');
+        if (updatedResponse.ok) {
+          const updatedData = await updatedResponse.json();
+          setUnits(updatedData);
+        }
       } else {
         console.error('Error deleting soldier. Server responded with:', response.status, response.statusText);
       }
@@ -100,7 +102,6 @@ function Unitsup() {
       console.error('Error:', error.message);
     }
   };
-
   return (
     <div className="bg-gray-100 min-h-screen">
       <UpdateTab />
