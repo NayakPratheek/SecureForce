@@ -30,6 +30,7 @@ function Award() {
 
       if (response.ok) {
         console.log('Data submitted successfully!');
+        alert('Data submitted successfully!')
       } else {
         console.error('Error submitting data. Server responded with:', response.status, response.statusText);
       }

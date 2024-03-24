@@ -209,23 +209,29 @@ app.put("/units/:Unit_ID", async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
-
 app.put("/soldiers/:Soldier_ID", async (req, res) => {
     try {
         const { Soldier_ID } = req.params;
         const { Soldier_Name, Soldier_Rank, DOB, Gender, Unit_ID, Date_of_Enlistment, Date_of_Discharge, Regiment_Name, Phone, Blood_Type, Physical_Fitness_Scores } = req.body;
 
+        console.log("Updating soldier with ID:", Soldier_ID);
+        console.log("New soldier data:", req.body);
+
         const updateUnit = await pool.query(
-            "UPDATE SOLDIER SET Soldier_Name = $1, Soldier_Rank = $2, DOB = $3, Gender = $4, Unit_ID = $5, Date_of_Enlistment = $6, Date_of_Discharge = $7,Regiment_Name=$8,Phone=$9,Blood_Type=$10,Physical_Fitness_Scores=$11, WHERE Soldier_ID = $12",
+            "UPDATE SOLDIER SET Soldier_Name = $1, Soldier_Rank = $2, DOB = $3, Gender = $4, Unit_ID = $5, Date_of_Enlistment = $6, Date_of_Discharge = $7, Regiment_Name = $8, Phone = $9, Blood_Type = $10, Physical_Fitness_Scores = $11 WHERE Soldier_ID = $12",
             [Soldier_Name, Soldier_Rank, DOB, Gender, Unit_ID, Date_of_Enlistment, Date_of_Discharge, Regiment_Name, Phone, Blood_Type, Physical_Fitness_Scores, Soldier_ID]
         );
 
+        console.log("Update result:", updateUnit);
+
         res.json("Soldier updated successfully");
     } catch (err) {
-        console.error(err.message);
+        console.error("Error updating soldier:", err.message);
         res.status(500).send("Server Error");
     }
 });
+
+
 
 app.put("/equipments/:Equipment_ID", async (req, res) => {
     try {
@@ -243,23 +249,25 @@ app.put("/equipments/:Equipment_ID", async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
-
 app.put("/commanders/:Commander_ID", async (req, res) => {
     try {
         const { Commander_ID } = req.params;
-        const { Commander_Name, Commander_Rank, Unit_ID, Phone, Date_of_Commission, Awards } = req.body;
+        const { commander_name, commander_rank, unit_id, phone, date_of_commission, awards } = req.body;
 
-        const updateUnit = await pool.query(
-            "UPDATE COMMANDER SET Commander_Name = $1, Commander_Rank = $2, Unit_ID = $3, Phone = $4, Date_of_Commission = $5,Awards=$6 WHERE Equipment_ID = $7",
-            [Commander_Name, Commander_Rank, Unit_ID, Phone, Date_of_Commission, Awards, Commander_ID]
+        const updateCommander = await pool.query(
+            "UPDATE COMMANDER SET Commander_Name = $1, Commander_Rank = $2, Unit_ID = $3, Phone = $4, Date_of_Commission = $5, Awards = $6 WHERE Commander_ID = $7",
+            [commander_name, commander_rank, unit_id, phone, date_of_commission, awards, Commander_ID]
         );
 
-        res.json("Equipments updated successfully");
+        res.json("Commander updated successfully");
     } catch (err) {
         console.error(err.message);
         res.status(500).send("Server Error");
     }
 });
+
+
+
 
 
 app.put("/awards/:Soldier_ID", async (req, res) => {
@@ -288,8 +296,10 @@ app.delete("/units/:Unit_ID", async (req, res) => {
         const deleteUnit = await pool.query("DELETE FROM UNIT WHERE UNIT_ID=$1", [UNIT_ID]);
         res.json("Unit was deleted");
     } catch (err) {
-        console.log("Server error");
+        console.error("Error deleting unit:", err);
+        res.status(500).json({ error: "Server error" });
     }
+    
 })
 
 

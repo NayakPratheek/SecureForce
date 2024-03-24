@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-const ViewTab = () => {
+const UpdateTab = () => {
   const [activeTab, setActiveTab] = useState("");
   const location = useLocation();
 
@@ -27,9 +27,9 @@ const ViewTab = () => {
         </li>
         <li className="me-2">
           <Link
-            to="/units"
+            to="/unitsup"
             className={`inline-block px-4 py-3 rounded-lg ${
-              activeTab === "units"
+              activeTab === "unitsup"
                 ? "text-white bg-blue-600"
                 : "hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"
             }`}
@@ -39,9 +39,9 @@ const ViewTab = () => {
         </li>
         <li className="me-2">
           <Link
-            to="/soldiers"
+            to="/soldiersup"
             className={`inline-block px-4 py-3 rounded-lg ${
-              activeTab === "soldiers"
+              activeTab === "soldiersup"
                 ? "text-white bg-blue-600"
                 : "hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"
             }`}
@@ -51,9 +51,9 @@ const ViewTab = () => {
         </li>
         <li className="me-2">
           <Link
-            to="/commanders"
+            to="/commandersup"
             className={`inline-block px-4 py-3 rounded-lg ${
-              activeTab === "commanders"
+              activeTab === "commandersup"
                 ? "text-white bg-blue-600"
                 : "hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"
             }`}
@@ -63,9 +63,9 @@ const ViewTab = () => {
         </li>
         <li className="me-2">
           <Link
-            to="/equipments"
+            to="/equipmentsup"
             className={`inline-block px-4 py-3 rounded-lg ${
-              activeTab === "equipments"
+              activeTab === "equipmentsup"
                 ? "text-white bg-blue-600"
                 : "hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"
             }`}
@@ -85,9 +85,9 @@ const ViewTab = () => {
         </li> */}
         <li className="me-2">
           <Link
-            to="/awards"
+            to="/awardsup"
             className={`inline-block px-4 py-3 rounded-lg ${
-              activeTab === "awards"
+              activeTab === "awardsup"
                 ? "text-white bg-blue-600"
                 : "hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"
             }`}
@@ -95,21 +95,9 @@ const ViewTab = () => {
             Awards
           </Link>
         </li>
-        <li className="me-2">
-          <Link
-            to="/awardsup"
-            className={`inline-block px-4 py-3 rounded-lg ${
-              activeTab === "awards"
-                ? "text-white bg-blue-600"
-                : "hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"
-            }`}
-          >
-            Update
-          </Link>
-        </li>
       </ul>
     </div>
   );
 };
 
-export default ViewTab;
+export default UpdateTab;

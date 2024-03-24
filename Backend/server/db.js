@@ -6,7 +6,7 @@ const pool = new Pool({
     host: 'localhost',
     database: 'dbproject',
     password: '4cb21cs072',
-    port: 5432
+    port: 5050
 });
 
 pool.on('error', (err, client) => {

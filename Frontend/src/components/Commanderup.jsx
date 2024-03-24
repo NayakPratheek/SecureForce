@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import UpdateTab from './UpdateTab';
 
-function Commander() {
+function Commanderup() {
+  const [commander, setCommander] = useState([]);
   const [formData, setFormData] = useState({
     Commander_ID: '',
     Commander_Name: '',
@@ -12,6 +13,37 @@ function Commander() {
     Awards: '',
   });
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/commanders');
+        if (response.ok) {
+          const data = await response.json();
+          setCommander(data);
+        } else {
+          console.error('Error fetching commanders data. Server responded with:', response.status, response.statusText);
+        }
+      } catch (error) {
+        console.error('Error:', error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleEdit = (commander) => {
+    const editedCommander = {
+      Commander_ID: commander.commander_id,
+      Commander_Name: commander.commander_name,
+      Commander_Rank: commander.commander_rank,
+      Unit_ID: commander.unit_id,
+      Phone: commander.phone,
+      Date_of_Commission: commander.date_of_commission,
+      Awards: commander.awards,
+    };
+    setFormData(editedCommander);
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -20,12 +52,12 @@ function Commander() {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/commander', {
-        method: 'POST',
+      const response = await fetch(`http://localhost:5000/commanders/${formData.Commander_ID}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -33,18 +65,14 @@ function Commander() {
       });
 
       if (response.ok) {
-        console.log('Data submitted successfully!');
-        setFormData({
-          Commander_ID: '',
-          Commander_Name: '',
-          Commander_Rank: '',
-          Unit_ID: '',
-          Phone: '',
-          Date_of_Commission: '',
-          Awards: '',
-        });
+        alert('Data updated successfully!');
+        const updatedResponse = await fetch('http://localhost:5000/commanders');
+        if (updatedResponse.ok) {
+          const updatedData = await updatedResponse.json();
+          setCommander(updatedData);
+        }
       } else {
-        console.error('Error submitting data. Server responded with:', response.status, response.statusText);
+        console.error('Error updating data. Server responded with:', response.status, response.statusText);
       }
     } catch (error) {
       console.error('Error:', error.message);
@@ -52,12 +80,65 @@ function Commander() {
   };
 
   return (
-    <body class="bg-gray-100 text-gray-800">
-    <div className="bg-gray-100 text-gray-800">    <UpdateTab/>
+    <div className="bg-gray-100 min-h-screen">
+      <UpdateTab />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h2 className="text-2xl mb-4">Insert Commander Data</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <h2 className="text-2xl mb-4">Commander Data</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full table-auto">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-100">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    Commander ID
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Commander Name
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Commander Rank
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Unit ID
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Phone
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Date of Commission
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Awards
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {commander.map((commander) => (
+                  <tr key={commander.commander_id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-white">
+                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      {commander.commander_id}
+                    </td>
+                    <td className="px-6 py-4">{commander.commander_name}</td>
+                    <td className="px-6 py-4">{commander.commander_rank}</td>
+                    <td className="px-6 py-4">{commander.unit_id}</td>
+                    <td className="px-6 py-4">{commander.phone}</td>
+                    <td className="px-6 py-4">{commander.date_of_commission}</td>
+                    <td className="px-6 py-4">{commander.awards}</td>
+                    <td className="px-6 py-4">
+                      <button onClick={() => handleEdit(commander)} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 py-1 rounded-md cursor-pointer mr-2">Edit</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <h2 className="text-2xl mb-4">Update Commander Data</h2>
+          <form onSubmit={handleUpdate} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="Commander_ID" className="block">Commander ID:</label>
@@ -146,8 +227,7 @@ function Commander() {
         </div>
       </div>
     </div>
-    </body>
   );
 }
 
-export default Commander;
+export default Commanderup;
