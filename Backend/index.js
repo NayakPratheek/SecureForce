@@ -293,7 +293,7 @@ app.put("/awards/:Soldier_ID", async (req, res) => {
 app.delete("/units/:Unit_ID", async (req, res) => {
     try {
         const { Unit_ID } = req.params;
-        const deleteUnit = await pool.query("DELETE FROM UNIT WHERE UNIT_ID=$1", [UNIT_ID]);
+        const deleteUnit = await pool.query("DELETE FROM UNIT WHERE UNIT_ID=$1", [Unit_ID]);
         res.json("Unit was deleted");
     } catch (err) {
         console.error("Error deleting unit:", err);
@@ -303,7 +303,7 @@ app.delete("/units/:Unit_ID", async (req, res) => {
 })
 
 
-app.delete("/soldiers/:Sozldier_ID", async (req, res) => {
+app.delete("/soldiers/:Soldier_ID", async (req, res) => {
     try {
         const { Soldier_ID } = req.params;
         const deleteSoldier = await pool.query("DELETE FROM SOLDIER WHERE SOLDIER_ID =$1", [Soldier_ID]);

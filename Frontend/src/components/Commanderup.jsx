@@ -78,7 +78,23 @@ function Commanderup() {
       console.error('Error:', error.message);
     }
   };
+  const handleDelete = async (Commander_ID) => {
+    try {
+      const response = await fetch(`http://localhost:5000/commanders/${Commander_ID}`, {
+        method: 'DELETE',
+      });
 
+      if (response.ok) {
+        alert('Commander deleted successfully!');
+        const updatedData = commander.filter((cmd) => cmd.commander_id !== Commander_ID);
+        setCommander(updatedData);
+      } else {
+        console.error('Error deleting commander. Server responded with:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
   return (
     <div className="bg-gray-100 min-h-screen">
       <UpdateTab />
@@ -129,6 +145,8 @@ function Commanderup() {
                     <td className="px-6 py-4">{commander.awards}</td>
                     <td className="px-6 py-4">
                       <button onClick={() => handleEdit(commander)} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 py-1 rounded-md cursor-pointer mr-2">Edit</button>
+                      <button onClick={() => handleDelete(commander.commander_id)} className="bg-red-500 hover:bg-red-600 text-white font-semibold px-2 py-1 rounded-md cursor-pointer">Delete</button>
+
                     </td>
                   </tr>
                 ))}

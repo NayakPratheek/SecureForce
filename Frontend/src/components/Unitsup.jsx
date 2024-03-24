@@ -82,6 +82,25 @@ function Unitsup() {
     }
   };
 
+
+  const handleDelete = async (Unit_ID) => {
+    try {
+      const response = await fetch(`http://localhost:5000/units/${Unit_ID}`, {
+        method: 'DELETE',
+        
+      });
+      if (response.ok) {
+        alert('Award deleted successfully!');
+        const updatedData = units.filter((uni) => uni.Unit_ID !== Unit_ID);
+        setUnits(updatedData);
+      } else {
+        console.error('Error deleting soldier. Server responded with:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <UpdateTab />
@@ -117,6 +136,8 @@ function Unitsup() {
                     <td className="px-6 py-4">{unit.date_of_establishment}</td>
                     <td className="px-6 py-4">
                       <button onClick={() => handleEdit(unit)} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 py-1 rounded-md cursor-pointer mr-2">Edit</button>
+                      <button onClick={() => handleDelete(unit.unit_id)} className="bg-red-500 hover:bg-red-600 text-white font-semibold px-2 py-1 rounded-md cursor-pointer">Delete</button>
+
                     </td>
                   </tr>
                 ))}

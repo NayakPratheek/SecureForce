@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import UpdateTab from './UpdateTab';
+import WriteTab from './WriteTab';
 
 function Commander() {
   const [formData, setFormData] = useState({
@@ -53,7 +53,7 @@ function Commander() {
 
   return (
     <body class="bg-gray-100 text-gray-800">
-    <div className="bg-gray-100 text-gray-800">    <UpdateTab/>
+    <div className="bg-gray-100 text-gray-800">    <WriteTab/>
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h2 className="text-2xl mb-4">Insert Commander Data</h2>

@@ -35,7 +35,7 @@ function Soldierup() {
 
     fetchData();
   }, []);
-  
+
   const handleEdit = (soldier) => {
     const editedSoldier = {
       Soldier_ID: soldier.soldier_id,
@@ -53,7 +53,6 @@ function Soldierup() {
     };
     setFormData(editedSoldier);
   };
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,7 +64,7 @@ function Soldierup() {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch(`http://localhost:5000/soldiers/${formData.Soldier_ID}`, {
         method: 'PUT',
@@ -74,8 +73,7 @@ function Soldierup() {
         },
         body: JSON.stringify(formData),
       });
-      console.log(formData)
-  
+
       if (response.ok) {
         alert('Data updated successfully!');
         const updatedResponse = await fetch('http://localhost:5000/soldiers');
@@ -85,6 +83,24 @@ function Soldierup() {
         }
       } else {
         console.error('Error updating data. Server responded with:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
+
+  const handleDelete = async (Soldier_ID) => {
+    try {
+      const response = await fetch(`http://localhost:5000/soldiers/${Soldier_ID}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        alert('Soldier deleted successfully!');
+        const updatedData = soldiers.filter((sol) => sol.soldier_id !== Soldier_ID);
+        setSoldiers(updatedData);
+      } else {
+        console.error('Error deleting soldier. Server responded with:', response.status, response.statusText);
       }
     } catch (error) {
       console.error('Error:', error.message);
@@ -120,21 +136,23 @@ function Soldierup() {
                 {soldiers.map((soldier) => (
                   <tr key={soldier.Soldier_ID} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-white">
                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {soldier.soldier_id}
-                  </td>
-                  <td className="px-6 py-4">{soldier.soldier_name}</td>
-                  <td className="px-6 py-4">{soldier.soldier_rank}</td>
-                  <td className="px-6 py-4">{soldier.dob}</td>
-                  <td className="px-6 py-4">{soldier.gender}</td>
-                  <td className="px-6 py-4">{soldier.unit_id}</td>
-                  <td className="px-6 py-4">{soldier.date_of_enlistment}</td>
-                  <td className="px-6 py-4">{soldier.date_of_discharge}</td>
-                  <td className="px-6 py-4">{soldier.regiment_name}</td>
-                  <td className="px-6 py-4">{soldier.phone}</td>
-                  <td className="px-6 py-4">{soldier.blood_type}</td>
-                  <td className="px-6 py-4">{soldier.physical_fitness_scores}</td>
+                      {soldier.soldier_id}
+                    </td>
+                    <td className="px-6 py-4">{soldier.soldier_name}</td>
+                    <td className="px-6 py-4">{soldier.soldier_rank}</td>
+                    <td className="px-6 py-4">{soldier.dob}</td>
+                    <td className="px-6 py-4">{soldier.gender}</td>
+                    <td className="px-6 py-4">{soldier.unit_id}</td>
+                    <td className="px-6 py-4">{soldier.date_of_enlistment}</td>
+                    <td className="px-6 py-4">{soldier.date_of_discharge}</td>
+                    <td className="px-6 py-4">{soldier.regiment_name}</td>
+                    <td className="px-6 py-4">{soldier.phone}</td>
+                    <td className="px-6 py-4">{soldier.blood_type}</td>
+                    <td className="px-6 py-4">{soldier.physical_fitness_scores}</td>
                     <td className="px-6 py-4">
-                      <button onClick={() => handleEdit(soldier)} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 py-1 rounded-md cursor-pointer mr-2">Edit</button>
+                      <button onClick={() => handleEdit(soldier)} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 py-1 rounded-md cursor-pointer mr-2">
+                        Edit</button>
+                      <button onClick={() => handleDelete(soldier.soldier_id)} className="bg-red-500 hover:bg-red-600 text-white font-semibold px-2 py-1 rounded-md cursor-pointer">Delete</button>
                     </td>
                   </tr>
                 ))}

@@ -69,6 +69,24 @@ function Awardsup() {
     }
   };
 
+  const handleDelete = async (Soldier_ID) => {
+    try {
+      const response = await fetch(`http://localhost:5000/awards/${Soldier_ID}`, {
+        method: 'DELETE',
+        
+      });
+      if (response.ok) {
+        alert('Award deleted successfully!');
+        const updatedData = awards.filter((sol) => sol.soldier_id !== Soldier_ID);
+        setawards(updatedData);
+      } else {
+        console.error('Error deleting soldier. Server responded with:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen">
 <UpdateTab/>
@@ -76,7 +94,7 @@ function Awardsup() {
         <div className="mb-8">
           <h2 className="text-2xl mb-4">Award Data</h2>
           <div className="overflow-x-auto">
-            <table className="w-full table-auto">
+            <table className="w-full table-auto" >
               <thead>
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-white">
                   <th className="px-6 py-3">Soldier ID</th>
@@ -93,6 +111,8 @@ function Awardsup() {
                     <td className="px-6 py-4">{award.award_issued_date}</td>
                     <td className="px-6 py-4">
                       <button onClick={() => handleEdit(award)} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 py-1 rounded-md cursor-pointer mr-2">Edit</button>
+                      <button onClick={() => handleDelete(award.soldier_id)} className="bg-red-500 hover:bg-red-600 text-white font-semibold px-2 py-1 rounded-md cursor-pointer">Delete</button>
+
                     </td>
                   </tr>
                 ))}
