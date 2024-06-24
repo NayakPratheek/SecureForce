@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 const pool = require("./server/db");
 const { insertUnitQ, insertSoldierQ, insertEquipmentQ, insertCommanderQ, insertAwardQ } = require("./q");
-
+require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 
@@ -348,8 +348,8 @@ app.delete("/awards/:Soldier_ID", async (req, res) => {
 
 
 
-
-app.listen(5000, () => {
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
     console.log("Server running at port 5000");
 });
 
