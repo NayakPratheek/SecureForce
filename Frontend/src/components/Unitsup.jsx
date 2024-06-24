@@ -1,35 +1,31 @@
-import React, { useState, useEffect } from "react";
-import UpdateTab from "./UpdateTab";
+import React, { useState, useEffect } from 'react';
+import UpdateTab from './UpdateTab';
 
 function Unitsup() {
   const [units, setUnits] = useState([]);
   const [formData, setFormData] = useState({
-    Unit_ID: "",
-    Unit_Name: "",
-    Unit_Type: "",
-    Unit_Head_Name: "",
-    Unit_Head_Rank: "",
-    Unit_Head_Phone: "",
-    Unit_Location: "",
-    Date_of_Establishment: "",
+    Unit_ID: '',
+    Unit_Name: '',
+    Unit_Type: '',
+    Unit_Head_Name: '',
+    Unit_Head_Rank: '',
+    Unit_Head_Phone: '',
+    Unit_Location: '',
+    Date_of_Establishment: '',
   });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/units");
+        const response = await fetch('http://localhost:5000/units');
         if (response.ok) {
           const data = await response.json();
           setUnits(data);
         } else {
-          console.error(
-            "Error fetching units data. Server responded with:",
-            response.status,
-            response.statusText
-          );
+          console.error('Error fetching units data. Server responded with:', response.status, response.statusText);
         }
       } catch (error) {
-        console.error("Error:", error.message);
+        console.error('Error:', error.message);
       }
     };
 
@@ -39,15 +35,13 @@ function Unitsup() {
   const handleEdit = (unit) => {
     const editedUnit = {
       Unit_ID: unit.unit_id,
-      Unit_Name: unit.unit_name ? unit.unit_name.trim() : "",
-      Unit_Type: unit.unit_type ? unit.unit_type.trim() : "",
-      Unit_Head_Name: unit.unit_head_name ? unit.unit_head_name.trim() : "",
-      Unit_Head_Rank: unit.unit_head_rank ? unit.unit_head_rank.trim() : "",
-      Unit_Head_Phone: unit.unit_head_phone ? unit.unit_head_phone.trim() : "",
-      Unit_Location: unit.unit_location ? unit.unit_location.trim() : "",
-      Date_of_Establishment: unit.date_of_establishment
-        ? unit.date_of_establishment
-        : "",
+      Unit_Name: unit.unit_name ? unit.unit_name.trim() : '',
+      Unit_Type: unit.unit_type ? unit.unit_type.trim() : '',
+      Unit_Head_Name: unit.unit_head_name ? unit.unit_head_name.trim() : '',
+      Unit_Head_Rank: unit.unit_head_rank ? unit.unit_head_rank.trim() : '',
+      Unit_Head_Phone: unit.unit_head_phone ? unit.unit_head_phone.trim() : '',
+      Unit_Location: unit.unit_location ? unit.unit_location.trim() : '',
+      Date_of_Establishment: unit.date_of_establishment ? unit.date_of_establishment : '',
     };
     setFormData(editedUnit);
   };
@@ -64,58 +58,50 @@ function Unitsup() {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        `http://localhost:5000/units/${formData.Unit_ID}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(`http://localhost:5000/units/${formData.Unit_ID}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
       if (response.ok) {
-        alert("Data updated successfully!");
-        // Refetch the updated data
-        const updatedResponse = await fetch("http://localhost:5000/units");
+        alert('Data updated successfully!');
+        const updatedResponse = await fetch('http://localhost:5000/units');
         if (updatedResponse.ok) {
           const updatedData = await updatedResponse.json();
           setUnits(updatedData);
         }
       } else {
-        console.error(
-          "Error updating data. Server responded with:",
-          response.status,
-          response.statusText
-        );
+        console.error('Error updating data. Server responded with:', response.status, response.statusText);
       }
     } catch (error) {
-      console.error("Error:", error.message);
+      console.error('Error:', error.message);
     }
   };
+
 
   const handleDelete = async (Unit_ID) => {
     try {
       const response = await fetch(`http://localhost:5000/units/${Unit_ID}`, {
-        method: "DELETE",
+        method: 'DELETE',
+        
       });
       if (response.ok) {
-        alert("Unit deleted successfully!");
-        const updatedData = units.filter((uni) => uni.Unit_ID !== Unit_ID);
-        setUnits(updatedData);
+        alert('Award deleted successfully!');
+        const updatedResponse = await fetch('http://localhost:5000/units');
+        if (updatedResponse.ok) {
+          const updatedData = await updatedResponse.json();
+          setUnits(updatedData);
+        }
       } else {
-        console.error(
-          "Error deleting soldier. Server responded with:",
-          response.status,
-          response.statusText
-        );
+        console.error('Error deleting soldier. Server responded with:', response.status, response.statusText);
       }
     } catch (error) {
-      console.error("Error:", error.message);
+      console.error('Error:', error.message);
     }
   };
-
   return (
     <div className="bg-gray-100 min-h-screen">
       <UpdateTab />
@@ -139,10 +125,8 @@ function Unitsup() {
               </thead>
               <tbody>
                 {units.map((unit) => (
-                  <tr
-                    key={unit.unit_id}
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-white"
-                  >
+                  <tr key={unit.unit_id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-white">
+
                     <td className="px-6 py-4">{unit.unit_id}</td>
                     <td className="px-6 py-4">{unit.unit_name}</td>
                     <td className="px-6 py-4">{unit.unit_type}</td>
@@ -152,23 +136,14 @@ function Unitsup() {
                     <td className="px-6 py-4">{unit.unit_location}</td>
                     <td className="px-6 py-4">{unit.date_of_establishment}</td>
                     <td className="px-6 py-4">
-                      <button
-                        onClick={() => handleEdit(unit)}
-                        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 py-1 rounded-md cursor-pointer mr-2"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(unit.unit_id)}
-                        className="bg-red-500 hover:bg-red-600 text-white font-semibold px-2 py-1 rounded-md cursor-pointer"
-                      >
-                        Delete
-                      </button>
+                      <button onClick={() => handleEdit(unit)} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 py-1 rounded-md cursor-pointer mr-2">Edit</button>
+                      <button onClick={() => handleDelete(unit.unit_id)} className="bg-red-500 hover:bg-red-600 text-white font-semibold px-2 py-1 rounded-md cursor-pointer">Delete</button>
+
                     </td>
                   </tr>
                 ))}
-              </tbody>
-            </table>
+              </tbody>            
+              </table>
           </div>
         </div>
         <div>
@@ -176,9 +151,7 @@ function Unitsup() {
           <form onSubmit={handleUpdate} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="Unit_ID" className="block">
-                  Unit ID:
-                </label>
+                <label htmlFor="Unit_ID" className="block">Unit ID:</label>
                 <input
                   type="text"
                   id="Unit_ID"
@@ -189,9 +162,7 @@ function Unitsup() {
                 />
               </div>
               <div>
-                <label htmlFor="Unit_Name" className="block">
-                  Unit Name:
-                </label>
+                <label htmlFor="Unit_Name" className="block">Unit Name:</label>
                 <input
                   type="text"
                   id="Unit_Name"
@@ -202,9 +173,7 @@ function Unitsup() {
                 />
               </div>
               <div>
-                <label htmlFor="Unit_Type" className="block">
-                  Unit Type:
-                </label>
+                <label htmlFor="Unit_Type" className="block">Unit Type:</label>
                 <input
                   type="text"
                   id="Unit_Type"
@@ -215,9 +184,7 @@ function Unitsup() {
                 />
               </div>
               <div>
-                <label htmlFor="Unit_Head_Name" className="block">
-                  Unit Head Name:
-                </label>
+                <label htmlFor="Unit_Head_Name" className="block">Unit Head Name:</label>
                 <input
                   type="text"
                   id="Unit_Head_Name"
@@ -228,9 +195,7 @@ function Unitsup() {
                 />
               </div>
               <div>
-                <label htmlFor="Unit_Head_Rank" className="block">
-                  Unit Head Rank:
-                </label>
+                <label htmlFor="Unit_Head_Rank" className="block">Unit Head Rank:</label>
                 <input
                   type="text"
                   id="Unit_Head_Rank"
@@ -241,9 +206,7 @@ function Unitsup() {
                 />
               </div>
               <div>
-                <label htmlFor="Unit_Head_Phone" className="block">
-                  Unit Head Phone:
-                </label>
+                <label htmlFor="Unit_Head_Phone" className="block">Unit Head Phone:</label>
                 <input
                   type="text"
                   id="Unit_Head_Phone"
@@ -254,9 +217,7 @@ function Unitsup() {
                 />
               </div>
               <div>
-                <label htmlFor="Unit_Location" className="block">
-                  Unit Location:
-                </label>
+                <label htmlFor="Unit_Location" className="block">Unit Location:</label>
                 <input
                   type="text"
                   id="Unit_Location"
@@ -267,9 +228,7 @@ function Unitsup() {
                 />
               </div>
               <div>
-                <label htmlFor="Date_of_Establishment" className="block">
-                  Date of Establishment:
-                </label>
+                <label htmlFor="Date_of_Establishment" className="block">Date of Establishment:</label>
                 <input
                   type="date"
                   id="Date_of_Establishment"
